@@ -4,22 +4,21 @@
  ********************************************************/
 
 #include "nextion.h"
+#define SLEEPTIME   300000  /* micro sec (default 0.3秒=300000) */
 
-
-int getstatus()
+int getstatus(void)
 {
 	FILE	*fp;
-    char    *cmdline;
+    char    cmdline[512];
 	char	line[512] 	= {'\0'};
 	char	*tmpstr;
-    char    fname[128]  = {'\0'};
 
     /*
-     * CPU 温度取得の標準出力オープン
+     * CPU 温度の標準出力を取得
      */
     cnt_temp++;
-    if (cnt_temp > 200) {
-        cmdline = "vcgencmd measure_temp";
+    if (cnt_temp > SLEEPCOUNT) {
+        strcpy(cmdline, "vcgencmd measure_temp");
         if ((fp = popen(cmdline, "r")) != NULL) {
             fgets(line, sizeof(line), fp);
             usleep(SLEEPTIME);
@@ -29,23 +28,20 @@ int getstatus()
             /* 標準出力クローズ */
             pclose(fp);
             cnt_temp = 0;
+//            printf("%s\n", cputemp); /* for test */
         }
     }
+
 
     /*
      * ログファイルからデータを抽出する
      */
-
-    /* 日付入りファイル名の作成 */
-    timer = time(NULL);
-    timeptr = gmtime(&timer);
-    strftime(fname, sizeof(fname), "tail -n10 /var/log/dstarrepeaterd-%Y-%m-%d.log", timeptr);
-    cmdline = fname;
+    sprintf(cmdline, "tail -f -c1 %s", dstarlogpath);
 
 	/* コマンドの標準出力オープン */
 	if ((fp = popen(cmdline, "r")) == NULL) {
 		printf("File open error!\n");
-	}
+    }
 
 /* sample
 M: 2019-03-16 00:28:57: Radio header decoded - My: JE3HCZ  /ID80  Your: DCS047BL  Rpt1: DIRECT    Rpt2: DIRECT    Flags: 00 00 00
@@ -72,14 +68,14 @@ M: 2019-03-16 00:30:09: Stats for JL3ZBS B  Frames: 7.5s, Loss: 0.0%, Packets: 0
 //	fgets(line, sizeof(line), fp);
 
 
-	while ((fgets(line, sizeof(line), fp)) != NULL) {
+//	while ((fgets(line, sizeof(line), fp)) != NULL) {
 
-		if ((tmpstr = strstr(line, "Linked")) != NULL) strncpy(status, tmpstr, 25);
+//		if ((tmpstr = strstr(line, "Linked")) != NULL) strncpy(status, tmpstr, 25);
 
 //		if ((tmpstr = strstr(line, "dmonitor start")) != NULL) {
 //			strncpy(status, tmpstr, 21);
 //		}
-	}
+//	}
 
 //printf("%s\n", tmpstr);
 

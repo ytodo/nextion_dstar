@@ -47,11 +47,11 @@
 /* Macros */
 #define SERIALPORT  "/dev/ttyAMA0"
 #define CONFFILE    "/etc/dstarrepeater"
-#define LOGPATH     "/var/log/"
+#define LOGDIR      "/var/log/"
 #define BAUDRATE	9600
 #define LISTSIZE	256
 #define CHARSIZE	30
-#define SLEEPTIME   300000 /* micro sec (default 0.3秒=300000) */
+#define SLEEPCOUNT  200              // コマンド実行待ちカウント
 
 /* 日付表示関連 */
 time_t  timer;
@@ -59,17 +59,18 @@ struct  tm *timeptr;
 extern  char    tmstr[256];
 
 /* Variables */
-extern	char    status[CHARSIZE];
-extern	char	rptcall[CHARSIZE];
-extern  char    station[CHARSIZE];
-extern  char    ipaddress[CHARSIZE];
-extern  char    modemtype[CHARSIZE];
-extern  char    cputemp[CHARSIZE];
-extern  int     cnt_temp;
+extern	char    status[CHARSIZE];       // ログファイルからの状況取得用
+extern	char	rptcall[CHARSIZE];      // タッチパネルからのコマンド受信用
+extern  char    station[CHARSIZE];      // ノード用コールサイン
+extern  char    ipaddress[CHARSIZE];    // eth0 のIP アドレス
+extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類
+extern  char    cputemp[CHARSIZE];      // CPU の温度
+extern  int     cnt_temp;               // 温度測定間隔調整用カウンタ
+extern  char    dstarlogpath[CHARSIZE]; // D-STAR Repeater ログのフルパス
 
 /* Functions */
-int	    getstatus();
-int     getconfig();
+int	    getstatus(void);
+int     getconfig(void);
 int	    openport(char *devicename, long baudrate);
 void	recvdata(char *rptcon);
 void	sendcmd(char *cmd);

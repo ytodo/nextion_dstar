@@ -36,6 +36,13 @@ int main(int argc, char *argv[])
 	char	concall[8]	    = {'\0'};
 	char	concallpre[8]	= {'\0'};
     char    tmpstr[32]      = {'\0'};
+    char    fname[128]      = {'\0'};
+
+    /* 日付入りログファイル名の作成 */
+    timer = time(NULL);
+    timeptr = gmtime(&timer);
+    strftime(fname, sizeof(fname), "dstarrepeaterd-%Y-%m-%d.log", timeptr);
+    sprintf(dstarlogpath, "%s%s", LOGDIR, fname);
 
 	/* GPIO シリアルポートのオープン*/
 	fd = openport(SERIALPORT, BAUDRATE);
@@ -83,6 +90,7 @@ int main(int argc, char *argv[])
 			if (strncmp(concall, "restart", 7) == 0) flag = 1;
 			if (strncmp(concall, "reboot",  6) == 0) flag = 2;
 			if (strncmp(concall, "shutdown",8) == 0) flag = 3;
+
 			switch (flag) {
 			case 1:
                 sendcmd("page MAIN");
@@ -108,6 +116,8 @@ int main(int argc, char *argv[])
 		/*
 		 * 送信処理
 		 */
+
+		/* ステータス・ラストハードの読み取り */
         getstatus();
 
         /* CPU 温度の表示*/
@@ -138,11 +148,6 @@ int main(int argc, char *argv[])
 
         sprintf(command, "t2.txt=\"%s\"", status);
         sendcmd(command);
-
-
-
-		/* ステータス・ラストハードの読み取り */
-//		getstatus();
 
 		/* 接続先の表示*/
 //		if ((strncmp(rptcall, "", 1) != 0) && (strncmp(rptcall, rptcallpre, 8) !=0)) {
