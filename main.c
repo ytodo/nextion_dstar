@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	char	command[32] 	= {'\0'};
 	char	statpre[32] 	= {'\0'};
 	char	rptcallpre[32] 	= {'\0'};
-	char	concall[8]	    = {'\0'};
+	char	usercmd[32]	    = {'\0'};
 	char	concallpre[8]	= {'\0'};
     char    tmpstr[32]      = {'\0'};
     char    fname[128]      = {'\0'};
@@ -78,18 +78,18 @@ int main(int argc, char *argv[])
 		 */
 
 		/* タッチパネルのデータを読み込む */
-		recvdata(concall);
+		recvdata(usercmd);
 
         /* タッチデータが選択されている場合、前回と同じかチェック（同じならパス） */
-		if ((strlen(concall) > 3) && (strncmp(concall, concallpre, 8) != 0))  {
+		if ((strlen(usercmd) > 3) && (strncmp(usercmd, concallpre, 8) != 0))  {
 
 			/* 現在の返り値を保存 */
-			strncpy(concallpre, concall, 8);
+			strncpy(concallpre, usercmd, 8);
 
 			/* コマンドをスイッチに振り分ける */
-			if (strncmp(concall, "restart", 7) == 0) flag = 1;
-			if (strncmp(concall, "reboot",  6) == 0) flag = 2;
-			if (strncmp(concall, "shutdown",8) == 0) flag = 3;
+			if (strncmp(usercmd, "restart", 7) == 0) flag = 1;
+			if (strncmp(usercmd, "reboot",  6) == 0) flag = 2;
+			if (strncmp(usercmd, "shutdown",8) == 0) flag = 3;
 
 			switch (flag) {
 			case 1:
@@ -148,15 +148,6 @@ int main(int argc, char *argv[])
 
         sprintf(command, "t2.txt=\"%s\"", status);
         sendcmd(command);
-
-		/* 接続先の表示*/
-//		if ((strncmp(rptcall, "", 1) != 0) && (strncmp(rptcall, rptcallpre, 8) !=0)) {
-//			strcpy(rptcallpre, rptcall);
-//			sprintf(command, "t1.txt=\"LINK TO : %s\"", rptcall);
-//			sendcmd(command);
-//			sprintf(command, "MAIN.link.txt=\"LINK TO : %s\"", rptcall);
-//			sendcmd(command);
-//		}
 
 		/* ステータス・ラストハードの表示 */
 //		if ((strncmp(status, "", 1) != 0) && (strncmp(status, statpre, 24) != 0)) {

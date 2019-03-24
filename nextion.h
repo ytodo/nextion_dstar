@@ -60,7 +60,7 @@ extern  char    tmstr[256];
 
 /* Variables */
 extern	char    status[CHARSIZE];       // ログファイルからの状況取得用
-extern	char	rptcall[CHARSIZE];      // タッチパネルからのコマンド受信用
+//extern	char	usercmd[CHARSIZE];      // タッチパネルからのコマンド受信用
 extern  char    station[CHARSIZE];      // ノード用コールサイン
 extern  char    ipaddress[CHARSIZE];    // eth0 のIP アドレス
 extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類
@@ -72,7 +72,7 @@ extern  char    dstarlogpath[CHARSIZE]; // D-STAR Repeater ログのフルパス
 int	    getstatus(void);
 int     getconfig(void);
 int	    openport(char *devicename, long baudrate);
-void	recvdata(char *rptcon);
+void	recvdata(char *touchcmd);
 void	sendcmd(char *cmd);
 
 #endif // __DMONITOR_H__

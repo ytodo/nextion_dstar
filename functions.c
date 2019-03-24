@@ -68,7 +68,7 @@ void sendcmd(char *cmd)
 /*********************************************
  * コマンドの受信
  *********************************************/
-void recvdata(char *rptcon)
+void recvdata(char *touchcmd)
 {
     int  len     = 0;
     int  i       = 0;
@@ -78,8 +78,8 @@ void recvdata(char *rptcon)
 	len = read(fd, buf, sizeof(buf));
 	if (0 < len) {
 		for (i = 0; i < len; i++) {
-			sprintf(&rptcon[i], "%c", buf[i]);
+			sprintf(&touchcmd[i], "%c", buf[i]);
 		}
-		rptcon[i] = '\0';
+		touchcmd[i] = '\0';
 	}
 }
