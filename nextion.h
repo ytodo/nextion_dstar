@@ -51,7 +51,7 @@
 #define BAUDRATE	9600
 #define LISTSIZE	256
 #define CHARSIZE	30
-#define SLEEPCOUNT  200              // コマンド実行待ちカウント
+#define SLEEPCOUNT  200                 // コマンド実行待ちカウント
 
 /* 日付表示関連 */
 time_t  timer;
@@ -60,7 +60,6 @@ extern  char    tmstr[256];
 
 /* Variables */
 extern	char    status[CHARSIZE];       // ログファイルからの状況取得用
-//extern	char	usercmd[CHARSIZE];      // タッチパネルからのコマンド受信用
 extern  char    station[CHARSIZE];      // ノード用コールサイン
 extern  char    ipaddress[CHARSIZE];    // eth0 のIP アドレス
 extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類
@@ -76,4 +75,3 @@ void	recvdata(char *touchcmd);
 void	sendcmd(char *cmd);
 
 #endif // __DMONITOR_H__
-

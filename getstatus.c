@@ -36,7 +36,7 @@ int getstatus(void)
     /*
      * ログファイルからデータを抽出する
      */
-    sprintf(cmdline, "tail -f -c1 %s", dstarlogpath);
+    sprintf(cmdline, "tail -n1 %s", dstarlogpath);
 
 	/* コマンドの標準出力オープン */
 	if ((fp = popen(cmdline, "r")) == NULL) {
@@ -61,23 +61,17 @@ M: 2019-03-16 00:30:09: Stats for JL3ZBS B  Frames: 7.5s, Loss: 0.0%, Packets: 0
 */
 
 	/* 過去のデータをクリアする  */
-//	memset(&status[0], '\0', sizeof(status));
-//	memset(&rptcall[0],'\0', sizeof(rptcall));
+	memset(&status[0], '\0', sizeof(status));
 
 	/* 標準出力を配列に取得 */
 //	fgets(line, sizeof(line), fp);
 
 
-//	while ((fgets(line, sizeof(line), fp)) != NULL) {
+	while ((fgets(line, sizeof(line), fp)) != NULL) {
+		if ((tmpstr = strstr(line, "Linked")) != NULL) strncpy(status, tmpstr, 10);
+	}
 
-//		if ((tmpstr = strstr(line, "Linked")) != NULL) strncpy(status, tmpstr, 25);
-
-//		if ((tmpstr = strstr(line, "dmonitor start")) != NULL) {
-//			strncpy(status, tmpstr, 21);
-//		}
-//	}
-
-//printf("%s\n", tmpstr);
+printf("%s\n", status);
 
 	/* status に関する文字列があったら */
 //	if ((tmpstr = strstr(line, "from")) != NULL) {

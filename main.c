@@ -80,18 +80,12 @@ int main(int argc, char *argv[])
 		/* タッチパネルのデータを読み込む */
 		recvdata(usercmd);
 
-        /* タッチデータが選択されている場合、前回と同じかチェック（同じならパス） */
-		if ((strlen(usercmd) > 3) && (strncmp(usercmd, concallpre, 8) != 0))  {
+    	/* コマンドをスイッチに振り分ける */
+		if (strncmp(usercmd, "restart", 7) == 0) flag = 1;
+		if (strncmp(usercmd, "reboot",  6) == 0) flag = 2;
+		if (strncmp(usercmd, "shutdown",8) == 0) flag = 3;
 
-			/* 現在の返り値を保存 */
-			strncpy(concallpre, usercmd, 8);
-
-			/* コマンドをスイッチに振り分ける */
-			if (strncmp(usercmd, "restart", 7) == 0) flag = 1;
-			if (strncmp(usercmd, "reboot",  6) == 0) flag = 2;
-			if (strncmp(usercmd, "shutdown",8) == 0) flag = 3;
-
-			switch (flag) {
+		switch (flag) {
 			case 1:
                 sendcmd("page MAIN");
 				system("systemctl restart dstarrepeater.service");
@@ -110,7 +104,6 @@ int main(int argc, char *argv[])
 
 			default:
 				break;
-			}
 		}
 
 		/*
