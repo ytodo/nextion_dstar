@@ -60,6 +60,8 @@ extern  char    tmstr[256];
 
 /* Variables */
 extern	char    status[CHARSIZE];       // ログファイルからの状況取得用
+extern  char    status2[CHARSIZE];      // 〃（主にラストハード）
+extern  char    linkref[CHARSIZE];      // 接続先リフレクタ
 extern  char    station[CHARSIZE];      // ノード用コールサイン
 extern  char    ipaddress[CHARSIZE];    // eth0 のIP アドレス
 extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類

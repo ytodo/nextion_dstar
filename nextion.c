@@ -2,6 +2,8 @@
 
 char    tmstr[256]             = {'\0'};
 char	status[CHARSIZE] 	   = {'\0'};
+char    status2[CHARSIZE]      = {'\0'};
+char    linkref[CHARSIZE]      = {'\0'};
 char	usercmd[CHARSIZE]	   = {'\0'};
 char    station[CHARSIZE]      = {'\0'};
 char    ipaddress[CHARSIZE]    = {'\0'};

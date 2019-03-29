@@ -23,7 +23,7 @@
 
 
 #include "nextion.h"
-
+#define SLEEPTIME 20000
 
 int main(int argc, char *argv[])
 {
@@ -31,12 +31,11 @@ int main(int argc, char *argv[])
 	int	    i;
 	int	    flag;
 	char	command[32] 	= {'\0'};
-	char	statpre[32] 	= {'\0'};
-	char	rptcallpre[32] 	= {'\0'};
-	char	usercmd[32]	    = {'\0'};
-	char	concallpre[8]	= {'\0'};
+	char	refcheck[32] 	= {'\0'};
+    char    statcheck[32]   = {'\0'};
+	char	usercmd[32]     = {'\0'};
     char    tmpstr[32]      = {'\0'};
-    char    fname[128]      = {'\0'};
+    char    fname[32]       = {'\0'};
 
     /* 日付入りログファイル名の作成 */
     timer = time(NULL);
@@ -52,7 +51,7 @@ int main(int argc, char *argv[])
 
 	/* メインスクリーンの初期設定 */
 	sendcmd("dim=50");
-	sendcmd("page MAIN");
+	sendcmd("page IDLE");
 
     sprintf(command, "station.txt=\"%s\"", station);
     sendcmd(command);
@@ -87,18 +86,18 @@ int main(int argc, char *argv[])
 
 		switch (flag) {
 			case 1:
-                sendcmd("page MAIN");
+                sendcmd("page IDLE");
 				system("systemctl restart dstarrepeater.service");
                 system("systemctl restart nextion.service");
 				break;
 
 			case 2:
-				sendcmd("page MAIN");
+				sendcmd("page IDLE");
 				system("sudo shutdown -r now");
 				break;
 
 			case 3:
-				sendcmd("page MAIN");
+				sendcmd("page IDLE");
 				system("sudo shutdown -h now");
 				break;
 
@@ -113,7 +112,9 @@ int main(int argc, char *argv[])
 		/* ステータス・ラストハードの読み取り */
         getstatus();
 
-        /* CPU 温度の表示*/
+        /*********************
+           CPU 温度の表示
+        **********************/
         sprintf(command, "temp.txt=\"%s\"", cputemp);
         sendcmd(command);
         sendcmd("t20.txt=temp.txt");
@@ -139,23 +140,37 @@ int main(int argc, char *argv[])
             sendcmd("t20.bco=63488");
         }
 
-        sprintf(command, "t2.txt=\"%s\"", status);
-        sendcmd(command);
+        /**********************************
+          アクション・ラストハード等の表示
+         **********************************/
 
-		/* ステータス・ラストハードの表示 */
-//		if ((strncmp(status, "", 1) != 0) && (strncmp(status, statpre, 24) != 0)) {
-//			strcpy(statpre, status);
-//			sendcmd("dim=50");
+		/* リンク・リフレクタの表示 */
+		if (&linkref != NULL && strlen(linkref) > 0 && strcmp(linkref, refcheck) != 0) {
 
-            /* STATUS1 => STATUS2 */
-//			sendcmd("MAIN.stat2.txt=MAIN.stat1.txt");
+            /* 処理繰り返し防止 */
+            strcpy(refcheck, linkref);
 
-            /* 取得ステイタス=> STATUS1 */
-//			sprintf(command, "MAIN.stat1.txt=\"%s\"", status);
-//			sendcmd(command);
-//			sendcmd("t2.txt=MAIN.stat1.txt");
-//			sendcmd("t3.txt=MAIN.stat2.txt");
-//		}
+printf("%s\n", linkref); // for check
+
+            /* Nextion グローバル変数ref に接続中のリフレクタを代入 */
+            sprintf(command, "IDLE.ref.txt=\"%s\"", linkref);
+            sendcmd(command);
+            sendcmd("IDLE.status.txt=IDLE.ref.txt");
+            sendcmd("IDLE.t1.txt=IDLE.ref.txt");
+        }
+
+        /* その他のログの表示 */
+        if (&status2 != NULL && strlen(status2) > 0 && strcmp(status2, statcheck) != 0) {
+
+            /* 処理繰り返し防止 */
+            strcpy(statcheck, status2);
+
+printf("%s\n", status2); // for check
+
+            /* ステータス２の表示 */
+            sprintf(command, "IDLE.t2.txt=\"%s\"", status2);
+            sendcmd(command);
+        }
 
 //	usleep(1*1000000); //Sleep:msec/sleep:sec
 	}
@@ -164,4 +179,5 @@ int main(int argc, char *argv[])
 	close(fd);
 	return (EXIT_SUCCESS);
 }
+
 
