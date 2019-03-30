@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (C) 2018-2019 by Yosh Todo JE3HCZ
  *
@@ -22,26 +21,17 @@
  */
 
 
-#include "nextion.h"
-#define SLEEPTIME 20000
+#include    "nextion.h"
+#define     WAITTIME 50000  // microsec
 
 int main(int argc, char *argv[])
 {
-	int	    fd;
-	int	    i;
-	int	    flag;
-	char	command[32] 	= {'\0'};
-	char	refcheck[32] 	= {'\0'};
-    char    statcheck[32]   = {'\0'};
-	char	usercmd[32]     = {'\0'};
+    int	    fd;
+    int	    i;
+    int	    flag;
+    char	command[32] 	= {'\0'};
+    char	usercmd[32]     = {'\0'};
     char    tmpstr[32]      = {'\0'};
-    char    fname[32]       = {'\0'};
-
-    /* 日付入りログファイル名の作成 */
-    timer = time(NULL);
-    timeptr = gmtime(&timer);
-    strftime(fname, sizeof(fname), "dstarrepeaterd-%Y-%m-%d.log", timeptr);
-    sprintf(dstarlogpath, "%s%s", LOGDIR, fname);
 
 	/* GPIO シリアルポートのオープン*/
 	fd = openport(SERIALPORT, BAUDRATE);
@@ -109,70 +99,12 @@ int main(int argc, char *argv[])
 		 * 送信処理
 		 */
 
+        /* CPU 温度の表示 */
+        dispcputemp();
+
 		/* ステータス・ラストハードの読み取り */
-        getstatus();
+        displinkinfo();
 
-        /*********************
-           CPU 温度の表示
-        **********************/
-        sprintf(command, "temp.txt=\"%s\"", cputemp);
-        sendcmd(command);
-        sendcmd("t20.txt=temp.txt");
-
-        /* CPU 温度による表示色変更 */
-        strcpy(tmpstr, cputemp);
-        tmpstr[strlen(tmpstr) - 4] = '\0';
-        int temp = atoi(tmpstr);
-        if (temp < 45) {
-            sendcmd("t20.pco=2016");
-            sendcmd("t20.bco=25356");
-        }
-        if (temp >= 45 && temp < 50) {
-            sendcmd("t20.pco=65504");
-            sendcmd("t20.bco=25356");
-        }
-        if (temp >= 50 && temp < 55) {
-            sendcmd("t20.pco=64520");
-            sendcmd("t20.bco=25356");
-        }
-        if (temp >= 55) {
-            sendcmd("t20.pco=65504");
-            sendcmd("t20.bco=63488");
-        }
-
-        /**********************************
-          アクション・ラストハード等の表示
-         **********************************/
-
-		/* リンク・リフレクタの表示 */
-		if (&linkref != NULL && strlen(linkref) > 0 && strcmp(linkref, refcheck) != 0) {
-
-            /* 処理繰り返し防止 */
-            strcpy(refcheck, linkref);
-
-printf("%s\n", linkref); // for check
-
-            /* Nextion グローバル変数ref に接続中のリフレクタを代入 */
-            sprintf(command, "IDLE.ref.txt=\"%s\"", linkref);
-            sendcmd(command);
-            sendcmd("IDLE.status.txt=IDLE.ref.txt");
-            sendcmd("IDLE.t1.txt=IDLE.ref.txt");
-        }
-
-        /* その他のログの表示 */
-        if (&status2 != NULL && strlen(status2) > 0 && strcmp(status2, statcheck) != 0) {
-
-            /* 処理繰り返し防止 */
-            strcpy(statcheck, status2);
-
-printf("%s\n", status2); // for check
-
-            /* ステータス２の表示 */
-            sprintf(command, "IDLE.t2.txt=\"%s\"", status2);
-            sendcmd(command);
-        }
-
-//	usleep(1*1000000); //Sleep:msec/sleep:sec
 	}
 
 	/* GPIO シリアルポートのクローズ*/

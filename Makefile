@@ -4,7 +4,7 @@
 
 # Program Name and object files
 PROGRAM	= nextion
-OBJECTS = main.o functions.o nextion.o getconfig.o getstatus.o
+OBJECTS = main.o functions.o nextion.o getconfig.o displinkinfo.o dispcputemp.o
 
 # Redefine MACRO
 CC	= gcc

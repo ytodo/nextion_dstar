@@ -59,20 +59,24 @@ struct  tm *timeptr;
 extern  char    tmstr[256];
 
 /* Variables */
-extern	char    status[CHARSIZE];       // ログファイルからの状況取得用
+extern  char    status[CHARSIZE];       // ログファイルからの状況取得用
 extern  char    status2[CHARSIZE];      // 〃（主にラストハード）
 extern  char    linkref[CHARSIZE];      // 接続先リフレクタ
 extern  char    station[CHARSIZE];      // ノード用コールサイン
 extern  char    ipaddress[CHARSIZE];    // eth0 のIP アドレス
 extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類
 extern  char    cputemp[CHARSIZE];      // CPU の温度
-extern  int     cnt_temp;               // 温度測定間隔調整用カウンタ
 extern  char    dstarlogpath[CHARSIZE]; // D-STAR Repeater ログのフルパス
+extern  char    tmpcheck[CHARSIZE];     // tmp
+extern  int     cnt_temp;               // 温度測定間隔調整用カウンタ
+extern  char    refcheck[CHARSIZE];     // 
+extern  char    statcheck[CHARSIZE];
 
 /* Functions */
-int	    getstatus(void);
-int     getconfig(void);
 int	    openport(char *devicename, long baudrate);
+int     getconfig(void);
+int     dispcputemp(void);
+int	    displinkinfo(void);
 void	recvdata(char *touchcmd);
 void	sendcmd(char *cmd);
 
