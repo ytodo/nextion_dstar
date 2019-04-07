@@ -26,7 +26,7 @@ int disploginfo(void)
     sprintf(dstarlogpath, "%s%s", LOGDIR, fname);
 
     /* コマンドの標準出力オープン */
-    sprintf(cmdline, "tail -n1 %s", dstarlogpath);
+    sprintf(cmdline, "tail -n2 %s", dstarlogpath);
     if ((fp = popen(cmdline, "r")) != NULL ) {
 
         /* 接続リフレクタに関する標準出力を配列に取得 */
@@ -71,15 +71,19 @@ int disploginfo(void)
         /*
          * RF ヘッダーの取得
          */
-        if ((tmpptr = strstr(line, "Radio header decoded")) != NULL) {
+        if ((tmpptr = strstr(line, "Radio header")) != NULL) {
 
             /* ヘッダーログを取得 */
             status2[0] = '\0';
 
+            /* JST 時刻の算出（localtime でJST にならないため） */
             jstimer = time(NULL) + 32400;
             jstimeptr = localtime(&jstimer);
+
+            /* Radio header の場合RF を表示 */
             strftime(status2, sizeof(status2), "RF  %H:%M ", jstimeptr);
 
+            /* ログよりコールサイン1,2 を取得 */
             strncat(status2, tmpptr + 27, 13);
             status2[23] = '\0';
 
@@ -93,15 +97,19 @@ int disploginfo(void)
         /*
          * ネットワーク ヘッダーの取得
          */
-        if ((tmpptr = strstr(line, "Network header received")) != NULL) {
+        if ((tmpptr = strstr(line, "Network header")) != NULL) {
 
             /* ヘッダーログを取得 */
             status2[0] = '\0';
 
+            /* JST 時刻の算出（localtime でJST にならないため） */
             jstimer = time(NULL) + 32400;
             jstimeptr = localtime(&jstimer);
+
+            /* Network header の場合Net を表示 */
             strftime(status2, sizeof(status2), "Net %H:%M ", jstimeptr);
 
+            /* ログよりコールサイン1,2 を取得 */
             strncat(status2, tmpptr + 30, 13);
             status2[23] = '\0';
 
