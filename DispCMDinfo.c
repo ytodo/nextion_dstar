@@ -3,10 +3,10 @@
  * 取得し、Nextion に表示する。
  ********************************************************/
 
-#include "nextion.h"
-#define SLEEPTIME   300000  /* micro sec (default 0.3秒=300000) */
+#include "Nextion.h"
+#define  SLEEPTIME   300000  /* micro sec (default 0.3秒=300000) */
 
-int dispcputemp(void)
+int dispcmdinfo(void)
 {
     FILE    *fp;
     char    *tmpptr;

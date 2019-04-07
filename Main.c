@@ -21,7 +21,7 @@
  */
 
 
-#include    "nextion.h"
+#include    "Nextion.h"
 #define     WAITTIME 50000  // microsec
 
 int main(int argc, char *argv[])
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     int	    fd;
     int	    i;
     int	    flag;
-    char	command[32] 	= {'\0'};
+    char	command[64] 	= {'\0'};
     char	usercmd[32]     = {'\0'};
     char    tmpstr[32]      = {'\0'};
 
@@ -38,6 +38,10 @@ int main(int argc, char *argv[])
 
     /* 環境設定ファイルの読み取り */
     getconfig();
+
+    /* tcpdump の起動 */
+    sprintf(command, "tcpdump -i %s -Xvvv udp port %s &", ifname, localport);
+//    system(command);
 
 	/* メインスクリーンの初期設定 */
 	sendcmd("dim=50");
@@ -54,31 +58,31 @@ int main(int argc, char *argv[])
     sendcmd(command);
     sendcmd("t3.txt=ipaddr.txt");
 
-    sprintf(command, "va2.txt=\"%s\"", modemtype);
+    sprintf(command, "status2.txt=\"%s\"", modemtype);
     sendcmd(command);
-    sendcmd("t30.txt=va2.txt");
+    sendcmd("t30.txt=status2.txt");
 
 
 	/* 送・受信ループ */
 	while (1) {
 
-		/*
-		 * 受信処理
-		 */
+        /*
+         * 受信処理
+         */
 
-		/* タッチパネルのデータを読み込む */
-		recvdata(usercmd);
+        /* タッチパネルのデータを読み込む */
+        recvdata(usercmd);
 
-    	/* コマンドをスイッチに振り分ける */
-		if (strncmp(usercmd, "restart", 7) == 0) flag = 1;
-		if (strncmp(usercmd, "reboot",  6) == 0) flag = 2;
-		if (strncmp(usercmd, "shutdown",8) == 0) flag = 3;
+        /* コマンドをスイッチに振り分ける */
+        if (strncmp(usercmd, "restart", 7) == 0) flag = 1;
+        if (strncmp(usercmd, "reboot",  6) == 0) flag = 2;
+        if (strncmp(usercmd, "shutdown",8) == 0) flag = 3;
 
-		switch (flag) {
-			case 1:
+        switch (flag) {
+            case 1:
                 sendcmd("page IDLE");
-				system("systemctl restart dstarrepeater.service");
-                system("systemctl restart nextion.service");
+                system("sudo systemctl restart dstarrepeater.service");
+                system("sudo systemctl restart nextion.service");
 				break;
 
 			case 2:
@@ -100,10 +104,13 @@ int main(int argc, char *argv[])
 		 */
 
         /* CPU 温度の表示 */
-        dispcputemp();
+        dispcmdinfo();
 
-		/* ステータス・ラストハードの読み取り */
-        displinkinfo();
+		/* ログステータスの読み取り */
+        disploginfo();
+
+        /* ストリームステータスの読み取り */
+//        dispstreaminfo();
 
 	}
 

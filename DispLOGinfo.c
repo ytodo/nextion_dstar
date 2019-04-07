@@ -3,9 +3,9 @@
  * リンク処理の結果情報を取得する
  ********************************************************/
 
-#include "nextion.h"
+#include "Nextion.h"
 
-int displinkinfo(void)
+int disploginfo(void)
 {
     FILE    *fp;
     char    *tmpptr;
@@ -19,6 +19,7 @@ int displinkinfo(void)
      */
 
     /* 日付入りログファイル名の作成 */
+
     timer = time(NULL);
     timeptr = gmtime(&timer);
     strftime(fname, sizeof(fname), "dstarrepeaterd-%Y-%m-%d.log", timeptr);
@@ -31,15 +32,17 @@ int displinkinfo(void)
         /* 接続リフレクタに関する標準出力を配列に取得 */
         fgets(line, sizeof(line), fp);
 
-        /* [Linked] が含まれる行が有れば・・ */
+        /*
+         * リフレクタへの接続情報の取得
+         */
         if ((tmpptr = strstr(line, "Linked")) != NULL) {
 
             /* 一巡して全く同じ内容ならパス */
-            if (strncmp(tmpptr, tmpcheck, 20) != 0) {
+            if (strncmp(tmpptr, chklink, 20) != 0) {
 
                 /* 一旦ダブりチェック用変数をクリアして新たに代入 */
-                tmpcheck[0] = '\0';
-                strncpy(tmpcheck, tmpptr, 20);
+                chklink[0] = '\0';
+                strncpy(chklink, tmpptr, 20);
 
                 /* リンク先リフレクタを取得 */
                 linkref[0] = '\0';
@@ -58,10 +61,57 @@ int displinkinfo(void)
                 sendcmd("IDLE.t1.txt=status.txt");
 
                 /* ステータス２の表示 */
-                sprintf(command, "IDLE.t2.txt=\"%s\"", status2);
+                sprintf(command, "IDLE.status2.txt=\"%s\"", status2);
                 sendcmd(command);
+                sendcmd("IDLE.t2.txt=status2.txt");
             }
         }
+
+
+        /*
+         * RF ヘッダーの取得
+         */
+        if ((tmpptr = strstr(line, "Radio header decoded")) != NULL) {
+
+            /* ヘッダーログを取得 */
+            status2[0] = '\0';
+
+            jstimer = time(NULL) + 32400;
+            jstimeptr = localtime(&jstimer);
+            strftime(status2, sizeof(status2), "RF  %H:%M ", jstimeptr);
+
+            strncat(status2, tmpptr + 27, 13);
+            status2[23] = '\0';
+
+            /* ステータス２の表示 */
+            sprintf(command, "IDLE.status2.txt=\"%s\"", status2);
+            sendcmd(command);
+            sendcmd("IDLE.t2.txt=status2.txt");
+        }
+
+
+        /*
+         * ネットワーク ヘッダーの取得
+         */
+        if ((tmpptr = strstr(line, "Network header received")) != NULL) {
+
+            /* ヘッダーログを取得 */
+            status2[0] = '\0';
+
+            jstimer = time(NULL) + 32400;
+            jstimeptr = localtime(&jstimer);
+            strftime(status2, sizeof(status2), "Net %H:%M ", jstimeptr);
+
+            strncat(status2, tmpptr + 30, 13);
+            status2[23] = '\0';
+
+            /* ステータス２の表示 */
+            sprintf(command, "IDLE.status2.txt=\"%s\"", status2);
+            sendcmd(command);
+            sendcmd("IDLE.t2.txt=status2.txt");
+        }
+
+
 
         /* 標準出力クローズ */
         pclose(fp);

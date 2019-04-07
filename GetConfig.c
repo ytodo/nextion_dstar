@@ -1,4 +1,4 @@
-#include "nextion.h"
+#include "Nextion.h"
 
 /*********************************************
  * 環境設定ファイルnextion.ini の内容を読む
@@ -11,7 +11,6 @@ int getconfig(void)
     char    *ret;
     char    *cmdline;
     char    line[64]   = {'\0'};
-    char    ifname[10] = {'\0'};
     char    ifaddr[20] = {'\0'};
     char    band[10]   = {'\0'};
     int     i = 0;
@@ -24,6 +23,7 @@ int getconfig(void)
         while ((fgets(line, sizeof(line), fp)) != NULL) {
             if ((ret = strstr(line, "callsign"))     != NULL) sscanf(line, "callsign=%[^\n]",     station);
             if ((ret = strstr(line, "localAddress")) != NULL) sscanf(line, "localAddress=%[^\n]", ipaddress);
+            if ((ret = strstr(line, "localPort"))    != NULL) sscanf(line, "localPort=%[^\n]",    localport);
             if ((ret = strstr(line, "modemType"))    != NULL) sscanf(line, "modemType=%[^\n]",    modemtype);
         }
 

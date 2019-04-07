@@ -1,4 +1,4 @@
-#include "nextion.h"
+#include "Nextion.h"
 
 
 int	    fd;

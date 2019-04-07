@@ -4,7 +4,7 @@
 
 # Program Name and object files
 PROGRAM	= nextion
-OBJECTS = main.o functions.o nextion.o getconfig.o displinkinfo.o dispcputemp.o
+OBJECTS = Main.o Functions.o Nextion.o GetConfig.o DispLOGinfo.o DispCMDinfo.o DispSTREAMinfo.o
 
 # Redefine MACRO
 CC	= gcc
@@ -26,4 +26,4 @@ clean	:
 	$(RM)  $(PROGRAM) $(OBJECTS)
 
 # Dependency of Header Files
-$(OBJECTS)	: nextion.h
+$(OBJECTS)	: Nextion.h

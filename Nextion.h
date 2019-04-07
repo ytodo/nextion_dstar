@@ -30,8 +30,8 @@
  *  ディスプレイに表示。タッチパネルから接続する　*
  *                                                *
  **************************************************/
-#ifndef __DMONITOR_H__
-#define __DMONITOR_H__
+#ifndef __NEXTION_H__
+#define __NEXTION_H__
 
 /* Header Files */
 #include <stdio.h>
@@ -48,6 +48,7 @@
 #define SERIALPORT  "/dev/ttyAMA0"
 #define CONFFILE    "/etc/dstarrepeater"
 #define LOGDIR      "/var/log/"
+#define DUMPFILE    "/tmp/tcpdump.dstar"
 #define BAUDRATE	9600
 #define LISTSIZE	256
 #define CHARSIZE	30
@@ -56,28 +57,32 @@
 /* 日付表示関連 */
 time_t  timer;
 struct  tm *timeptr;
-extern  char    tmstr[256];
+time_t  jstimer;
+struct  tm *jstimeptr;
 
 /* Variables */
 extern  char    status[CHARSIZE];       // ログファイルからの状況取得用
 extern  char    status2[CHARSIZE];      // 〃（主にラストハード）
 extern  char    linkref[CHARSIZE];      // 接続先リフレクタ
 extern  char    station[CHARSIZE];      // ノード用コールサイン
+extern  char    ifname[CHARSIZE];       // 通信用LAN インターフェース名
 extern  char    ipaddress[CHARSIZE];    // eth0 のIP アドレス
+extern  char    localport[CHARSIZE];    // ゲートウェイとの通信ポート
 extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類
 extern  char    cputemp[CHARSIZE];      // CPU の温度
 extern  char    dstarlogpath[CHARSIZE]; // D-STAR Repeater ログのフルパス
-extern  char    tmpcheck[CHARSIZE];     // tmp
+extern  char    chklink[CHARSIZE];      // ループ内の多重処理禁止用
+extern  char    chkstat[CHARSIZE];      // ループ内の多重処理禁止用
+extern  char    chkstat2[CHARSIZE];     // ループ内の多重処理禁止用
 extern  int     cnt_temp;               // 温度測定間隔調整用カウンタ
-extern  char    refcheck[CHARSIZE];     // 
-extern  char    statcheck[CHARSIZE];
 
 /* Functions */
 int	    openport(char *devicename, long baudrate);
 int     getconfig(void);
-int     dispcputemp(void);
-int	    displinkinfo(void);
+int     dispcmdinfo(void);
+int	    disploginfo(void);
+int     dispstreaminfo(void);
 void	recvdata(char *touchcmd);
 void	sendcmd(char *cmd);
 
-#endif // __DMONITOR_H__
+#endif // __NEXTION_H__
