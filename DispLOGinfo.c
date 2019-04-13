@@ -182,6 +182,7 @@ int disploginfo(void)
                 strncpy(chkstat2, line, 60);
 
                 /* IDLE 画面に戻る */
+                sleep(3);
                 sendcmd("dim=50");
                 sendcmd("page IDLE");
             }
@@ -201,6 +202,7 @@ int disploginfo(void)
                 strncpy(chkstat3, line, 60);
 
                 /* IDLE 画面に戻る */
+                sleep(3);
                 sendcmd("dim=50");
                 sendcmd("page IDLE");
             }
