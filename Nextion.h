@@ -72,9 +72,12 @@ extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類
 extern  char    cputemp[CHARSIZE];      // CPU の温度
 extern  char    dstarlogpath[CHARSIZE]; // D-STAR Repeater ログのフルパス
 extern  char    chklink[CHARSIZE];      // ループ内の多重処理禁止用
-extern  char    chkstat[CHARSIZE];      // ループ内の多重処理禁止用
-extern  char    chkstat2[CHARSIZE];     // ループ内の多重処理禁止用
+extern  char    chkstat[256];           // ループ内の多重処理禁止用
+extern  char    chkstat2[256];          // ループ内の多重処理禁止用
+extern  char    chkstat3[256];          // ループ内の多重処理禁止用
 extern  int     cnt_temp;               // 温度測定間隔調整用カウンタ
+extern  int     net_flag;               // ネット側ストリームon/off状態
+extern  int     rf_flag;                // RF 側ストリームon/off状態
 
 /* Functions */
 int	    openport(char *devicename, long baudrate);

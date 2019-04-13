@@ -39,10 +39,6 @@ int main(int argc, char *argv[])
     /* 環境設定ファイルの読み取り */
     getconfig();
 
-    /* tcpdump の起動 */
-    sprintf(command, "tcpdump -i %s -Xvvv udp port %s &", ifname, localport);
-//    system(command);
-
 	/* メインスクリーンの初期設定 */
 	sendcmd("dim=50");
 	sendcmd("page IDLE");
@@ -58,9 +54,9 @@ int main(int argc, char *argv[])
     sendcmd(command);
     sendcmd("t3.txt=ipaddr.txt");
 
-    sprintf(command, "status2.txt=\"%s\"", modemtype);
+    sprintf(command, "type.txt=\"%s\"", modemtype);
     sendcmd(command);
-    sendcmd("t30.txt=status2.txt");
+    sendcmd("t30.txt=type.txt");
 
 
 	/* 送・受信ループ */
@@ -108,10 +104,6 @@ int main(int argc, char *argv[])
 
 		/* ログステータスの読み取り */
         disploginfo();
-
-        /* ストリームステータスの読み取り */
-//        dispstreaminfo();
-
 	}
 
 	/* GPIO シリアルポートのクローズ*/

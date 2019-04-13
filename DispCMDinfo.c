@@ -49,7 +49,7 @@ int dispcmdinfo(void)
             int temp = atoi(tmpstr);
             if (temp < 45) {
                 sendcmd("t20.pco=2016");
-               sendcmd("t20.bco=25356");
+                sendcmd("t20.bco=25356");
             }
             if (temp >= 45 && temp < 50) {
                 sendcmd("t20.pco=65504");
