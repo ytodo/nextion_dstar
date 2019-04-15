@@ -94,7 +94,7 @@ int disploginfo(void)
                 status2[0] = '\0';
 
                 /* JST 時刻の算出（localtime でJST にならないため） */
-                jstimer = time(NULL) + 32400;
+                jstimer = time(NULL);
                 jstimeptr = localtime(&jstimer);
 
                 /* Radio header の場合RF を表示 */
@@ -144,8 +144,8 @@ int disploginfo(void)
                 /* ヘッダーログを取得 */
                 status2[0] = '\0';
 
-                /* JST 時刻の算出（localtime でJST にならないため） */
-                jstimer = time(NULL) + 32400;
+                /* JST 時刻の算出 */
+                jstimer = time(NULL);
                 jstimeptr = localtime(&jstimer);
 
                 /* Network header の場合Net を表示 */
