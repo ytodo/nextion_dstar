@@ -130,6 +130,10 @@ int disploginfo(void)
 
             /* 取得ログとダブりチェック用保存ログとの比較（違っていれば）*/
             if (strncmp(line, chkstat3, 60) != 0) {
+
+                /* TX Delay */
+                sleep(1);
+
                 sendcmd("page DSTAR");
                 net_flag = 1;
 
@@ -181,8 +185,10 @@ int disploginfo(void)
                 chkstat2[0] = '\0';
                 strncpy(chkstat2, line, 60);
 
-                /* IDLE 画面に戻る */
+                /* TX Hang */
                 sleep(3);
+
+                /* IDLE 画面に戻る */
                 sendcmd("dim=50");
                 sendcmd("page IDLE");
             }
@@ -201,8 +207,10 @@ int disploginfo(void)
                 chkstat3[0] = '\0';
                 strncpy(chkstat3, line, 60);
 
-                /* IDLE 画面に戻る */
+                /* TX Hang */
                 sleep(3);
+
+                /* IDLE 画面に戻る */
                 sendcmd("dim=50");
                 sendcmd("page IDLE");
             }

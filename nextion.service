@@ -1,0 +1,10 @@
+[Unit]
+Description = Nextion Service for "DStarRepeater" by Yosh Todo/JE3HCZ
+After = network.target
+
+[Service]
+#Type = forking
+ExecStart = /usr/local/bin/nextion
+
+[Install]
+WantedBy = multi-user.target
