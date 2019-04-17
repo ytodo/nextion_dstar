@@ -191,6 +191,11 @@ int disploginfo(void)
                 /* IDLE 画面に戻る */
                 sendcmd("dim=50");
                 sendcmd("page IDLE");
+                sendcmd("t0.txt=station.txt");
+                sendcmd("t1.txt=status.txt");
+                sendcmd("t2.txt=status2.txt");
+                sendcmd("t3.txt=ipaddr.txt");
+                sendcmd("t30.txt=type.txt");
             }
             rf_flag = 0;
         }
@@ -213,6 +218,11 @@ int disploginfo(void)
                 /* IDLE 画面に戻る */
                 sendcmd("dim=50");
                 sendcmd("page IDLE");
+                sendcmd("t0.txt=station.txt");
+                sendcmd("t1.txt=status.txt");
+                sendcmd("t2.txt=status2.txt");
+                sendcmd("t3.txt=ipaddr.txt");
+                sendcmd("t30.txt=type.txt");
             }
             net_flag = 0;
         }
