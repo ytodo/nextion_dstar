@@ -39,25 +39,23 @@ int main(int argc, char *argv[])
     /* 環境設定ファイルの読み取り */
     getconfig();
 
-	/* メインスクリーンの初期設定 */
+	/* グローバル変数の初期設定 */
 	sendcmd("dim=50");
 	sendcmd("page IDLE");
 
-    sprintf(command, "station.txt=\"%s\"", station);
+    sprintf(command, "station.txt=\"%s\"", station);    // ノードコールサイン
     sendcmd(command);
-    sendcmd("t0.txt=station.txt");
 
-    sendcmd("status.txt=\"Node Idle\"");
-  	sendcmd("t1.txt=status.txt");
+    sendcmd("status.txt=\"Node Idle\"");                // ステータス
 
-    sprintf(command, "ipaddr.txt=\"%s\"", ipaddress);
+    sprintf(command, "ipaddr.txt=\"%s\"", ipaddress);   // IPアドレス
     sendcmd(command);
-    sendcmd("t3.txt=ipaddr.txt");
 
-    sprintf(command, "type.txt=\"%s\"", modemtype);
+    sprintf(command, "type.txt=\"%s\"", modemtype);     // リピータ形式
     sendcmd(command);
-    sendcmd("t30.txt=type.txt");
 
+    /* グローバル変数の値を画面表示 */
+    reflesh_idle();                                     // IDLE 画面の表示ルーティン
 
 	/* 送・受信ループ */
 	while (1) {

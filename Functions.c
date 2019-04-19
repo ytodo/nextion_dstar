@@ -83,3 +83,18 @@ void recvdata(char *touchcmd)
 		touchcmd[i] = '\0';
 	}
 }
+
+
+/*********************************************
+ * IDLE 画面に復帰時データを再表示
+ *********************************************/
+void reflesh_idle()
+{
+    sendcmd("dim=50");
+    sendcmd("page IDLE");
+    sendcmd("t0.txt=station.txt");
+    sendcmd("t1.txt=status.txt");
+    sendcmd("t2.txt=status2.txt");
+    sendcmd("t3.txt=ipaddr.txt");
+    sendcmd("t30.txt=type.txt");
+}

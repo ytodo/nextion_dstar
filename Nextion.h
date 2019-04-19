@@ -87,5 +87,6 @@ int	    disploginfo(void);
 int     dispstreaminfo(void);
 void	recvdata(char *touchcmd);
 void	sendcmd(char *cmd);
+void    reflesh_idle();
 
 #endif // __NEXTION_H__
