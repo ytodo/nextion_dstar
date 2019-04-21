@@ -46,7 +46,8 @@ int main(int argc, char *argv[])
     sprintf(command, "station.txt=\"%s\"", station);    // ノードコールサイン
     sendcmd(command);
 
-    sendcmd("status.txt=\"Node Idle\"");                // ステータス
+    sendcmd("status.txt=ref.txt");
+//    sendcmd("status.txt=\"Node Idle\"");                // ステータス
 
     sprintf(command, "ipaddr.txt=\"%s\"", ipaddress);   // IPアドレス
     sendcmd(command);

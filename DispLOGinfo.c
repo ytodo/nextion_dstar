@@ -50,7 +50,7 @@ int disploginfo(void)
 
                 /* 一旦ダブりチェック用変数をクリアして新たに代入 */
                 chklink[0] = '\0';
-                strncpy(chklink, tmpptr, 20);
+                strncpy(chklink, tmpptr, 60);
 
                 /* リンク先リフレクタを取得 */
                 linkref[0] = '\0';
@@ -75,6 +75,38 @@ int disploginfo(void)
                 sendcmd("IDLE.t2.txt=status2.txt");
             }
         }
+
+
+        /*
+         * リフレクタへのdisconnect を取得
+         */
+        if ((tmpptr = strstr(line, "Not linked")) != NULL) {
+
+            /* 一巡して全く同じ内容ならパス */
+            if (strncmp(tmpptr, chklink2, 60) != 0) {
+
+                /* 一旦ダブりチェック用変数をクリアして新たに代入 */
+                chklink2[0] = '\0';
+                strncpy(chklink2, tmpptr, 60);
+
+                /* リンク先リフレクタを取得 */
+                linkref[0] = '\0';
+
+                /* 接続時のログを取得 */
+                status2[0] = '\0';
+                strncpy(status2, tmpptr, 20);
+                status2[20] = '\0';
+
+                /* Nextion グローバル変数に代入 */
+                sendcmd("IDLE.ref.txt=\"Not linked\"");
+                sendcmd("IDLE.status.txt=\"NODE IDLE\"");
+                sprintf(command, "IDLE.status2.txt=\"%s\"", status2);
+                sendcmd(command);
+
+                reflesh_idle();
+            }
+        }
+
 
 
         /*

@@ -72,6 +72,7 @@ extern  char    modemtype[CHARSIZE];    // モデムアダプタの種類
 extern  char    cputemp[CHARSIZE];      // CPU の温度
 extern  char    dstarlogpath[CHARSIZE]; // D-STAR Repeater ログのフルパス
 extern  char    chklink[CHARSIZE];      // ループ内の多重処理禁止用
+extern  char    chklink2[CHARSIZE];     // ループ内の多重処理禁止用
 extern  char    chkstat[256];           // ループ内の多重処理禁止用
 extern  char    chkstat2[256];          // ループ内の多重処理禁止用
 extern  char    chkstat3[256];          // ループ内の多重処理禁止用

@@ -12,6 +12,7 @@ char    modemtype[CHARSIZE]     = {'\0'};
 char    cputemp[CHARSIZE]       = {'\0'};
 char    dstarlogpath[CHARSIZE]  = {'\0'};
 char    chklink[CHARSIZE]       = {'\0'};
+char    chklink2[CHARSIZE]      = {'\0'};
 char    chkstat[256]            = {'\0'};
 char    chkstat2[256]           = {'\0'};
 char    chkstat3[256]           = {'\0'};
