@@ -40,19 +40,12 @@ int main(int argc, char *argv[])
     getconfig();
 
 	/* グローバル変数の初期設定 */
-	sendcmd("dim=50");
-	sendcmd("page IDLE");
-
-    sprintf(command, "station.txt=\"%s\"", station);    // ノードコールサイン
+    sprintf(command, "IDLE.station.txt=\"%s\"", station);    // ノードコールサイン
     sendcmd(command);
-
-    sendcmd("status.txt=ref.txt");
-//    sendcmd("status.txt=\"Node Idle\"");                // ステータス
-
-    sprintf(command, "ipaddr.txt=\"%s\"", ipaddress);   // IPアドレス
+    sendcmd("IDLE.status.txt=IDLE.ref.txt");                      // ステータス
+    sprintf(command, "IDLE.ipaddr.txt=\"%s\"", ipaddress);   // IPアドレス
     sendcmd(command);
-
-    sprintf(command, "type.txt=\"%s\"", modemtype);     // リピータ形式
+    sprintf(command, "IDLE.type.txt=\"%s\"", modemtype);     // リピータ形式
     sendcmd(command);
 
     /* グローバル変数の値を画面表示 */
