@@ -22,7 +22,7 @@
 
 
 #include    "Nextion.h"
-#define     WAITTIME 50000  // microsec
+#define     WAITTIME 1  // sec
 
 int main(int argc, char *argv[])
 {
@@ -96,6 +96,8 @@ int main(int argc, char *argv[])
 
 		/* ログステータスの読み取り */
         disploginfo();
+
+        sleep(WAITTIME);
 	}
 
 	/* GPIO シリアルポートのクローズ*/
