@@ -22,7 +22,7 @@
 
 
 #include    "Nextion.h"
-#define     WAITTIME 1  // sec
+#define     WAITTIME 0.5  // sec
 
 int main(int argc, char *argv[])
 {
