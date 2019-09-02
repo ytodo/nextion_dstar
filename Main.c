@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     int	    fd;
     int	    i;
     int	    flag;
-    char	command[64] 	= {'\0'};
+    char	command[64]     = {'\0'};
     char	usercmd[32]     = {'\0'};
     char    tmpstr[32]      = {'\0'};
 
@@ -42,14 +42,14 @@ int main(int argc, char *argv[])
 	/* グローバル変数の初期設定 */
     sprintf(command, "IDLE.station.txt=\"%s\"", station);    // ノードコールサイン
     sendcmd(command);
-    sendcmd("IDLE.status.txt=IDLE.ref.txt");                      // ステータス
+    sendcmd("IDLE.status.txt=IDLE.ref.txt");                 // ステータス
     sprintf(command, "IDLE.ipaddr.txt=\"%s\"", ipaddress);   // IPアドレス
     sendcmd(command);
     sprintf(command, "IDLE.type.txt=\"%s\"", modemtype);     // リピータ形式
     sendcmd(command);
 
     /* グローバル変数の値を画面表示 */
-    reflesh_idle();                                     // IDLE 画面の表示ルーティン
+    reflesh_idle();                                          // IDLE 画面の表示ルーティン
 
 	/* 送・受信ループ */
 	while (1) {

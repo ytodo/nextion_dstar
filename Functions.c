@@ -90,7 +90,7 @@ void recvdata(char *touchcmd)
  *********************************************/
 void reflesh_idle()
 {
-    sendcmd("dim=30");
+//    sendcmd("dim=30");
     sendcmd("page IDLE");
     sendcmd("t0.txt=station.txt");
     sendcmd("t1.txt=status.txt");
