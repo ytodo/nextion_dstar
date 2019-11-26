@@ -72,13 +72,17 @@ void recvdata(char *touchcmd)
 {
     int  len     = 0;
     int  i       = 0;
+    int  j       = 0;
     char buf[32] = {'\0'};
 
 	/* GPIO RxD のASCIIデータを長さ分読み込む */
 	len = read(fd, buf, sizeof(buf));
 	if (0 < len) {
 		for (i = 0; i < len; i++) {
-			sprintf(&touchcmd[i], "%c", buf[i]);
+            if (buf[i] >= 97 && buf[i] <= 122) {
+    			sprintf(&touchcmd[i], "%c", buf[i]);
+                j++;
+            }
 		}
 		touchcmd[i] = '\0';
 	}
