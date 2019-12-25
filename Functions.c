@@ -79,7 +79,7 @@ void recvdata(char *touchcmd)
 	len = read(fd, buf, sizeof(buf));
 	if (0 < len) {
 		for (i = 0; i < len; i++) {
-            if (buf[i] >= 97 && buf[i] <= 122) {
+            if (buf[i] >= 30 && buf[i] <= 122) {
     			sprintf(&touchcmd[i], "%c", buf[i]);
                 j++;
             }
