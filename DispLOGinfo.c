@@ -164,7 +164,7 @@ int disploginfo(void)
             if (strncmp(line, chkstat3, 60) != 0) {
 
                 /* TX Delay */
-                sleep(1);
+                sleep(TXDELAY);
 
                 sendcmd("page DSTAR");
                 net_flag = 1;
@@ -218,7 +218,7 @@ int disploginfo(void)
                 strncpy(chkstat2, line, 60);
 
                 /* TX Hang */
-                sleep(3);
+                sleep(TXHANG);
 
                 /* IDLE 画面に戻る */
                 reflesh_idle();
@@ -239,7 +239,7 @@ int disploginfo(void)
                 strncpy(chkstat3, line, 60);
 
                 /* TX Hang */
-                sleep(3);
+                sleep(TXHANG);
 
                 /* IDLE 画面に戻る */
                 reflesh_idle();

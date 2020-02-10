@@ -69,8 +69,8 @@ int main(int argc, char *argv[])
         switch (flag) {
             case 1:
                 sendcmd("page IDLE");
-                system("sudo systemctl restart dstarrepeater.service");
                 system("sudo systemctl restart nextion.service");
+                system("sudo systemctl restart dstarrepeater.service");
 				break;
 
 			case 2:
