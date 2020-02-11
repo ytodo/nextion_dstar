@@ -68,17 +68,20 @@ int main(int argc, char *argv[])
 
         switch (flag) {
             case 1:
+                sendcmd("dim=10");
                 sendcmd("page IDLE");
                 system("sudo systemctl restart nextion.service");
                 system("sudo systemctl restart dstarrepeater.service");
 				break;
 
 			case 2:
+                sendcmd("dim=10");
 				sendcmd("page IDLE");
 				system("sudo shutdown -r now");
 				break;
 
 			case 3:
+                sendcmd("dim=10");
 				sendcmd("page IDLE");
 				system("sudo shutdown -h now");
 				break;
