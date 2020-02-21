@@ -4,6 +4,7 @@ After = network.target
 
 [Service]
 #Type = forking
+Type = simple
 ExecStart = /usr/local/bin/nextion
 
 [Install]

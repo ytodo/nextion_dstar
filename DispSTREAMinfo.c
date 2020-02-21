@@ -1,16 +1,16 @@
 #include "Nextion.h"
-#define SLEEPTIME   300000
+#define SLEEPTIME	300000
 
 int dispstreaminfo(void)
 {
-    FILE    *fp;
-    char    *ret;
-    char    cmdline[32] = {'\0'};
-    char    line[256]   = {'\0'};
+	FILE	*fp;
+	char	*ret;
+	char	cmdline[32]	= {'\0'};
+	char	line[256]	= {'\0'};
 
-    /*
-     * 設定ファイルをオープンする
-     */
+	/*
+	 * 設定ファイルをオープンする
+	 */
 
     /* CPU 温度を取得するシステムコマンド */
 //    sprintf(cmdline, "tcpdump -i %s -A udp port %s -c1", ifname, localport);
@@ -31,7 +31,7 @@ int dispstreaminfo(void)
 //        exit(EXIT_FAILURE);
 //    }
 
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 
